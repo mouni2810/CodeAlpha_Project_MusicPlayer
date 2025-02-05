@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .player {
+            background: rgb(189, 198, 200);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .controls button {
+            font-size: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #seek {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <h2 id="title">Song Title</h2>
+        <h3 id="artist">Artist Name</h3>
+        <audio id="audio" src="song.mp3"></audio>
+        <div class="controls">
+            <button id="prev">⏮️</button>
+            <button id="play">▶️</button>
+            <button id="next">⏭️</button>
+        </div>
+        <input type="range" id="seek" value="0">
+    </div>
+    <script>
+        const audio = document.getElementById('audio');
+        const playButton = document.getElementById('play');
+        const seek = document.getElementById('seek');
+        
+        playButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playButton.textContent = '⏸️';
+            } else {
+                audio.pause();
+                playButton.textContent = '▶️';
+            }
+        });
+        
+        audio.addEventListener('timeupdate', () => {
+            seek.value = (audio.currentTime / audio.duration) * 100;
+        });
+        
+        seek.addEventListener('input', () => {
+            audio.currentTime = (seek.value / 100) * audio.duration;
+        });
+    </script>
+</body>
+</html>
